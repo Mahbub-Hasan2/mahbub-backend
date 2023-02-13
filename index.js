@@ -17,10 +17,15 @@ const app = express();
 
 app.use(bodyParser.json({ limit: "20mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "20mb", extended: true }));
+
 app.use(cors({
   origin: [
       'http://localhost:3000',
-      'http://localhost:3001'
+      'http://localhost:3001',
+      'http://mahbubdev1.vercel.app',
+      'https://mahbubdev1.vercel.app',
+      'http://mahbubdev2.vercel.app',
+      'https://mahbubdev2.vercel.app',
   ],
   credentials: true,
   methods: 'GET,POST,PUT,DELETE,PATCH',
