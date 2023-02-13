@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const products = require("../models/projects.js")
+const project = require("../models/projects.js")
 // import * as dotenv from 'dotenv'
 
 // // import { deleteUser } from "./controllers/user.js";
@@ -22,7 +22,7 @@ const products = require("../models/projects.js")
 
 
 const addProject = async (req, res) => {
-    const ress = products(req.body);
+    const ress = project(req.body);
     // console.log(req.body)
     try {
         await ress.save();
@@ -43,14 +43,14 @@ const addProject = async (req, res) => {
 
 // new code mahbub // start
 
-const updateProduct = async (req, res) => {
+const updateProject = async (req, res) => {
     const us = req.body;
     const id = us._id
     var query = { '_id': id };
-    const newProduct = products(us);
+    const newProduct = project(us);
 
     try {
-        await products.findOneAndUpdate(query, newProduct, { upsert: true });
+        await project.findOneAndUpdate(query, newProduct, { upsert: true });
         res.status(201).json({ message: "successfully updated" });
     } catch (err) {
         res.status(409).json({ message: err.message });
@@ -59,10 +59,10 @@ const updateProduct = async (req, res) => {
 
 // new code mahbub // end
 
-const getProducts = async (req, res) => {
+const getProjects = async (req, res) => {
     const page = req.params.page > 0 ? req.params.page : 10;
     try {
-        const requests = await products.find().limit(page);
+        const requests = await project.find().limit(page);
         res.status(200).json(requests);
     } catch (err) {
         res.status(400).json({ message: err.message });
@@ -133,37 +133,19 @@ const getProductsForDash = async (req, res, next) => {
     }
 };
 
-const getProduct = async (req, res) => {
+const getProject = async (req, res) => {
     try {
-        const requests = await products.find({ _id: req.params.id })
+        const requests = await project.find({ _id: req.params.id })
         res.status(200).json(requests[0]);
     } catch (err) {
         res.status(409).json({ message: err.message });
     }
 }
-const getProductsByNavFilter = async (req, res) => {
-    const value = req.body.nav;
-    // console.log(req.body)
+
+
+const deleteProject = async (req, res) => {
     try {
-        const requests = await products.find({ nav: { $regex: `${value}`, $options: "i" } });
-        res.status(200).json(requests);
-    } catch (err) {
-        res.status(409).json({ message: err.message });
-    }
-}
-const getSearch = async (req, res) => {
-    const value = req.body.category;
-    // console.log(req.body)
-    try {
-        const requests = await products.find({ category: { $regex: `${value}`, $options: "i" } });
-        res.status(200).json(requests);
-    } catch (err) {
-        res.status(409).json({ message: err.message });
-    }
-}
-const deleteProduct = async (req, res) => {
-    try {
-        await products.deleteOne({ _id: req.params.id });
+        await project.deleteOne({ _id: req.params.id });
         res.status(201).json({ message: "successfully deleted" });
     } catch (err) {
         res.status(409).json({ message: err.message });
@@ -173,11 +155,8 @@ const deleteProduct = async (req, res) => {
 module.exports = {
     // loginToken,
     addProject,
-    // updateProduct,
-    // getProducts,
-    // getProductsForDash,
-    // getProduct,
-    // getProductsByNavFilter,
-    // getSearch,
-    // deleteProduct
+    updateProject,
+    getProjects,
+    getProject,
+    deleteProject
 }
