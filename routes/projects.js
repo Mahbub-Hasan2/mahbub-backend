@@ -5,23 +5,15 @@ const {
     deleteProject,
     getProjects,
     getProject,
-    // getSearch,
-    // getProjectsByNavFilter,
-    // getProjectsForDash,
-    // loginToken
 } = require('../controllers/projects.js');
-// const { verifyAdminJWT, verifyJWT } = require("../middleware/verifyJWT.js");
+const { verifyAdminJWT } = require('../middleware/verifyJWT.js');
 
 
 const router = express.Router();
-router.post("/", addProject);
-// router.post("/login", loginToken);
-// router.get("/dash", verifyAdminJWT, getProjectsForDash);
+router.post("/", verifyAdminJWT, addProject);
 router.get("/:page", getProjects);
 router.get("/sing/:id", getProject);
-router.post("/update", updateProject);
-// router.post("/search", getSearch);
-// router.post("/navfilter", getProjectsByNavFilter);
-router.delete("/delete/:id", deleteProject);
+router.post("/update", verifyAdminJWT, updateProject)
+router.delete("/delete/:id", verifyAdminJWT, deleteProject);
 
 module.exports = router;

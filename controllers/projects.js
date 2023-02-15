@@ -5,20 +5,7 @@ const project = require("../models/projects.js")
 // // import { deleteUser } from "./controllers/user.js";
 // dotenv.config();
 
-// const loginToken = async (req, res) => {
-//     const user = req.body;
-//     try {
 
-//         const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECTET, {
-//             expiresIn: '1d'
-//         });
-//         // console.log(accessToken)
-//         res.status(200).json({ accessToken });
-
-//     } catch (err) {
-//         res.status(409).json({ message: "error" });
-//     }
-// }
 
 
 const addProject = async (req, res) => {
