@@ -65,7 +65,7 @@ const changeProjectPosition = async (req, res) => {
 const getProjects = async (req, res) => {
     const page = req.params.page > 0 ? req.params.page : 10;
     try {
-        const requests = await project.find().limit(page).sort({ order: 1 });
+        const requests = await project.find().sort({ order: 1 }).limit(page);
         res.status(200).json(requests);
     } catch (err) {
         res.status(400).json({ message: err.message });

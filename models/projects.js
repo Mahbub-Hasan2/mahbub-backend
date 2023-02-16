@@ -9,7 +9,7 @@ const projectSchema = mongoose.Schema({
     someText: String,
     skills: { type: Array, required: true, },
     description: String,
-    order: { type: Number, default: 0 },
+    order: { type: Number, default: 1 },
 });
 
 const projects = mongoose.model("project", projectSchema);
