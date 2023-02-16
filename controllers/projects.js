@@ -44,81 +44,33 @@ const updateProject = async (req, res) => {
     }
 }
 
-// new code mahbub // end
+const changeProjectPosition = async (req, res) => {
+    const us = req.body;
+    const id = us._id
+    var query = { '_id': id };
+
+    try {
+        await project.findOneAndUpdate(query, {
+            $set: {
+                order: us.order
+            }
+        });
+        res.status(201).json({ message: "successfully updated" });
+    } catch (err) {
+        res.status(409).json({ message: err.message });
+    }
+}
+
 
 const getProjects = async (req, res) => {
     const page = req.params.page > 0 ? req.params.page : 10;
     try {
-        const requests = await project.find().limit(page);
+        const requests = await project.find().limit(page).sort({ order: 1 });
         res.status(200).json(requests);
     } catch (err) {
         res.status(400).json({ message: err.message });
     }
 }
-
-//  const getProductsForDash = async (req, res) => {
-//     var perPage = 10;
-//     var page = req.params.page > 0 ? req.params.page : 0;
-//     try {
-//         const requests = await products
-//             .find()
-//             .limit(perPage).skip(perPage * page)
-//         // .sort({ name: "desc" });
-
-//         res.status(200).json(requests);
-
-//     } catch (err) {
-//         res.status(409).json({ message: err.message });
-//     }
-// }
-
-const getProductsForDash = async (req, res, next) => {
-    try {
-        // We destructure the req.query object to get the page and limit variables from url 
-        const {
-            page,
-            product_id,
-            product_search_text,
-            product_status,
-            limit = 10
-        } = req.query;
-
-        let filter = {};
-        if (product_search_text === '' && product_status === '') {
-            filter = {}
-        }
-        else {
-            filter = {
-                $or: [
-                    { name: { $regex: `${product_search_text}`, $options: "i" } },
-                    { category: product_search_text },
-                    { category: product_status },
-                    { nav: product_search_text }
-                ]
-            }
-        }
-        // console.log(filter)
-        const requests = await products.find(filter)
-            // We multiply the "limit" variables by one just to make sure we pass a number and not a string
-            .limit(limit * 1)
-            // I don't think i need to explain the math here
-            .skip(page * limit)
-            // We sort the data by the date of their creation in descending order (user 1 instead of -1 to get ascending order)
-            .sort({ createdAt: -1 })
-
-        // Getting the numbers of products stored in database
-        const count = await products.countDocuments();
-
-        return res.status(200).json({
-            products: requests,
-            totalPages: Math.ceil(count / limit),
-            currentPage: page,
-            totalProducts: count,
-        });
-    } catch (err) {
-        next(err);
-    }
-};
 
 const getProject = async (req, res) => {
     try {
@@ -145,5 +97,6 @@ module.exports = {
     updateProject,
     getProjects,
     getProject,
-    deleteProject
+    deleteProject,
+    changeProjectPosition
 }
