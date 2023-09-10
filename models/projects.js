@@ -1,15 +1,15 @@
 const mongoose = require("mongoose");
 
 const projectSchema = mongoose.Schema({
-    cardImg: { type: String, required: true, },
-    projectName: { type: String, required: true, },
-    liveLink: { type: String, required: true, },
-    liveLink2: String,
-    github: String,
-    someText: String,
+    title: { type: String, required: true, },
+    description: { type: Array, required: true, },
     skills: { type: Array, required: true, },
-    description: String,
-    order: { type: Number, default: 1 },
+    video: String,
+    photos: Array,
+    date: String,
+    projectUrl: String,
+    templateType: String,
+    github: String,
 });
 
 const projects = mongoose.model("project", projectSchema);

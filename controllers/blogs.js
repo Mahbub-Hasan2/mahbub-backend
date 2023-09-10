@@ -1,6 +1,5 @@
 const jwt = require("jsonwebtoken");
-const project = require("../models/projects.js")
-const projectcard = require("../models/projectcard.js")
+const project = require("../models/blogs.js")
 // import * as dotenv from 'dotenv'
 
 // // import { deleteUser } from "./controllers/user.js";
@@ -9,19 +8,11 @@ const projectcard = require("../models/projectcard.js")
 
 
 
-const addProject = async (req, res) => {
+const addBlog = async (req, res) => {
     const ress = project(req.body);
-
     // console.log(req.body)
     try {
-        const descriptionRes = await ress.save();
-        const { _id } = descriptionRes;
-
-        const cardBodyData = req.body;
-        cardBodyData.descriptionId = _id;
-        const rescard = projectcard(cardBodyData);
-
-        await rescard.save();
+        await ress.save();
         res.status(200).json({ message: "success" });
     }
     catch (error) {
@@ -39,7 +30,7 @@ const addProject = async (req, res) => {
 
 // new code mahbub // start
 
-const updateProject = async (req, res) => {
+const updateBlog = async (req, res) => {
     const us = req.body;
     const id = us._id
     var query = { '_id': id };
@@ -53,7 +44,7 @@ const updateProject = async (req, res) => {
     }
 }
 
-const changeProjectPosition = async (req, res) => {
+const changeBlogPosition = async (req, res) => {
     const us = req.body;
     const id = us._id
     var query = { '_id': id };
@@ -71,17 +62,17 @@ const changeProjectPosition = async (req, res) => {
 }
 
 
-const getProjects = async (req, res) => {
+const getBlogs = async (req, res) => {
     const page = req.params.page > 0 ? req.params.page : 10;
     try {
-        const requests = await projectcard.find().sort({ order: 1 }).limit(page);
+        const requests = await project.find().sort({ order: 1 }).limit(page);
         res.status(200).json(requests);
     } catch (err) {
         res.status(400).json({ message: err.message });
     }
 }
 
-const getProject = async (req, res) => {
+const getBlog = async (req, res) => {
     try {
         const requests = await project.find({ _id: req.params.id })
         res.status(200).json(requests[0]);
@@ -91,11 +82,9 @@ const getProject = async (req, res) => {
 }
 
 
-const deleteProject = async (req, res) => {
+const deleteBlog = async (req, res) => {
     try {
-        const cardProject = await projectcard.find({_id: req.params.id});
-        await project.deleteOne({ _id: cardProject.descriptionId });
-        await projectcard.deleteOne({_id: req.params.id})
+        await project.deleteOne({ _id: req.params.id });
         res.status(201).json({ message: "successfully deleted" });
     } catch (err) {
         res.status(409).json({ message: err.message });
@@ -104,10 +93,10 @@ const deleteProject = async (req, res) => {
 
 module.exports = {
     // loginToken,
-    addProject,
-    updateProject,
-    getProjects,
-    getProject,
-    deleteProject,
-    changeProjectPosition
+    addBlog,
+    updateBlog,
+    getBlogs,
+    getBlog,
+    deleteBlog,
+    changeBlogPosition
 }

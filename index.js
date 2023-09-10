@@ -21,7 +21,8 @@ app.use(bodyParser.urlencoded({ limit: "20mb", extended: true }));
 app.use(cors({
   origin: [
       'http://localhost:3000',
-      'http://localhost:3001',
+      'http://localhost:5173',
+      'https://localhost:5173',
       'http://mahbubdev1.vercel.app',
       'https://mahbubdev1.vercel.app',
       'http://mahbubdev2.vercel.app',

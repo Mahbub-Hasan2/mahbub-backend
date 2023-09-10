@@ -11,11 +11,12 @@ const { verifyAdminJWT } = require('../middleware/verifyJWT.js');
 
 
 const router = express.Router();
-router.post("/", verifyAdminJWT, addProject);
+router.post("/", addProject);
 router.get("/:page", getProjects);
 router.get("/sing/:id", getProject);
 router.post("/update", verifyAdminJWT, updateProject)
 router.post("/position", verifyAdminJWT, changeProjectPosition)
-router.delete("/delete/:id", verifyAdminJWT, deleteProject);
+// router.delete("/delete/:id", verifyAdminJWT, deleteProject);
+router.delete("/delete/:id", deleteProject);
 
 module.exports = router;
