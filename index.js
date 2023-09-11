@@ -27,6 +27,8 @@ app.use(cors({
       'https://mahbubdev1.vercel.app',
       'http://mahbubdev2.vercel.app',
       'https://mahbubdev2.vercel.app',
+      'http://mahbubdev3.vercel.app',
+      'https://mahbubdev3.vercel.app',
   ],
   credentials: true,
   methods: 'GET,POST,PUT,DELETE,PATCH',
